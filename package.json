@@ -3,11 +3,18 @@
   "private": true,
   "version": "0.1.0",
   "main": "src/main/main.js",
-  "scripts": {
-    "dev": "vite",
-    "electron:dev": "electron .",
-    "build": "vite build",
-    "package": "electron-builder"
+ "scripts": {
+    "build": "tsc && vite build",
+    "electron:build": "electron-builder --publish never"
+  },
+  "build": {
+    "appId": "com.yourco.yourapp",
+    "directories": {
+      "output": "dist"
+    },
+    "mac": { "target": "dmg" },
+    "win": { "target": "nsis" },
+    "linux": { "target": "AppImage" }
   },
   "dependencies": {
     "react": "^18.0.0",
