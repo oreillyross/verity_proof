@@ -1,4 +1,15 @@
-// Vite configuration
-export default {
-  // Add your Vite config here
-};
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  root: 'src/renderer',
+  plugins: [react()],
+  server: {
+    host: '0.0.0.0',
+    port: 5000,
+    allowedHosts: true
+  },
+  build: {
+    outDir: '../../dist'
+  }
+});

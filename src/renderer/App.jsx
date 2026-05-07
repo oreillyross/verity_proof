@@ -1,14 +1,20 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+const api = window.api ?? {
+  listEntries: async () => [],
+  addEntry: async (entry) => ({ ...entry, id: Date.now(), createdAt: new Date().toISOString() })
+};
 
 export default function App() {
   const [entries, setEntries] = useState([]);
+  const isWeb = !window.api;
 
   useEffect(() => {
-    window.api.listEntries().then(setEntries);
+    api.listEntries().then(setEntries);
   }, []);
 
   const addTest = async () => {
-    const created = await window.api.addEntry({
+    const created = await api.addEntry({
       projectId: 'demo',
       title: 'First log',
       description: 'It works'
@@ -17,9 +23,14 @@ export default function App() {
   };
 
   return (
-    <div style={{ padding: 16 }}>
+    <div style={{ padding: 16, fontFamily: 'sans-serif' }}>
+      {isWeb && (
+        <p style={{ color: '#888', fontSize: 13, marginBottom: 12 }}>
+          Running in browser preview — entries are not persisted (Electron not active).
+        </p>
+      )}
       <button onClick={addTest}>Add entry</button>
-      <pre>{JSON.stringify(entries, null, 2)}</pre>
+      <pre style={{ marginTop: 12 }}>{JSON.stringify(entries, null, 2)}</pre>
     </div>
   );
 }
